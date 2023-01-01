@@ -15,6 +15,9 @@
 #include <camera.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <3DTexture.h>
+#include <math3d.h>
+#include <Model_3DS.h>
 
 
 HDC			hDC = NULL;		// Private GDI Device Context
@@ -39,7 +42,7 @@ public :
 	
 
 public :
-	skyBox(int cX,int cY,int cZ,int ymen,int ysar,int edam,int wra,int fo2,int t7t){
+	skyBox(int cX,int cY,int cZ,int ymen,int ysar,int edam,int wra,int fo2,int t7t,bool first,bool last){
 	ccX=cX;
 	ccY=cY;
 	ccZ=cZ;
@@ -51,7 +54,7 @@ public :
 
 
 
-
+	if(!first){
 	glBegin(GL_QUADS); //ysar
 	
 	
@@ -109,6 +112,25 @@ public :
 
 
 	glEnd();
+	}else{
+		glBegin(GL_QUADS); 
+	
+	
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-size+cX,-size+cY, size+cZ);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(size+cX, -size+cY, size+cZ);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(size+cX,size+cY, size+cZ);
+
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-size+cX,size+cY,size+cZ);
+
+	glEnd();
+
+	}
 
 
 
@@ -147,7 +169,7 @@ public :
 
 
 
-
+	if(!last){
 	glBegin(GL_QUADS); //ysar
 	
 	
@@ -205,7 +227,25 @@ public :
 
 
 	glEnd();
+	}else{
+		glBegin(GL_QUADS); //ysar
 
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(-size+cX,-size+cY, -size+cZ);
+	
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(size+cX, -size+cY, -size+cZ);
+	
+		glTexCoord2f(0.0f,1.0f);
+		glVertex3f(size+cX,size+cY, -size+cZ);
+
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(-size+cX,size+cY,-size+cZ);
+	
+
+
+	glEnd();
+	}
 
 
 
@@ -283,17 +323,17 @@ public :
 	glBegin(GL_QUADS); 
 	
 	
-	glTexCoord2f(1.0f,1.0f);
+	glTexCoord2f(1.0f,0.0f);
 	glVertex3f(-size+cX, -size+cY, size+cZ);
 	
-	glTexCoord2f(0.0f,1.0f);
+	glTexCoord2f(0.0f,0.0f);
 	glVertex3f(size+cX, -size+cY, size+cZ);
 	
-	glTexCoord2f(0.0f,0.0f);
+	glTexCoord2f(0.0f,1.0f);
 	glVertex3f(size+cX,-size+cY, -size+cZ);
 	
 
-	glTexCoord2f(1.0f,0.0f);
+	glTexCoord2f(1.0f,1.0f);
 	glVertex3f(-size+cX,-size+cY,-size+cZ);
 	
 
@@ -1389,10 +1429,17 @@ int mountain2dam,mountainWra,mountainYmen,mountainYsar,mountainFo2,mountainT7t;
 
 int tunel1,roof,road2,rail;
 
+int forest2dam,forestWra,forestYmen,forestYsar,forestFo2,forestT7t;
 
+int night2dam,nightWra,nightYmen,nightYsar,nightFo2,nightT7t;
 
+int desert2dam,desertWra,desertYmen,desertYsar,desertFo2,desertT7t;
 	
+Model_3DS*bench;
+GLTexture chaitTex,chaitTex1;
 
+Model_3DS*house;
+GLTexture houseTex1,houseTex2,houseTex3,houseTex4,houseTex5,houseTex6,houseTex7;
 
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
@@ -1405,13 +1452,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 
 
 	glEnable(GL_TEXTURE_2D);
-	image1 = LoadTexture("skyrender0001.bmp",255);
-	image2 = LoadTexture("skyrender0002.bmp",255);
-	image3 = LoadTexture("skyrender0003.bmp",255);
-	image4 = LoadTexture("skyrender0004.bmp",255);
-	image5 = LoadTexture("skyrender0005.bmp",255);
-	image6 = LoadTexture("skyrender0006.bmp",255);
-	grass = LoadTexture("grass.bmp",255);
+	
 
 	snow2dam = LoadTexture("snow_ft.bmp",255);
 	snowWra = LoadTexture("snow_bk.bmp",255);
@@ -1439,21 +1480,48 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	door = LoadTexture("door.bmp", 255);
 	wheel = LoadTexture("wheel.bmp", 255);
 	
+	forest2dam = LoadTexture("forest-posz.bmp",255);
+	forestWra = LoadTexture("forest-negz.bmp",255);
+	forestYmen = LoadTexture("forest-negx.bmp",255);
+	forestYsar = LoadTexture("forest-posx.bmp",255);
+	forestFo2 = LoadTexture("forest-posy.bmp",255);
+	forestT7t = LoadTexture("forest-negy.bmp",255);
 
+	night2dam = LoadTexture("night-posz.bmp",255);
+	nightWra = LoadTexture("night-negz.bmp",255);
+	nightYmen = LoadTexture("night-negx.bmp",255);
+	nightYsar = LoadTexture("night-posx.bmp",255);
+	nightFo2 = LoadTexture("night-posy.bmp",255);
+	nightT7t = LoadTexture("night-negy.bmp",255);
 
-
+	desert2dam = LoadTexture("desert-posz.bmp",255);
+	desertWra = LoadTexture("desert-negz.bmp",255);
+	desertYmen = LoadTexture("desert-negx.bmp",255);
+	desertYsar = LoadTexture("desert-posx.bmp",255);
+	desertFo2 = LoadTexture("desert-posy.bmp",255);
+	desertT7t = LoadTexture("desert-negy.bmp",255);
 	
-	
+	bench = new Model_3DS();
+	bench->Load("Chair Tandem Bench N210722.3ds");
+	chaitTex.LoadBMP("123.bmp");
+	chaitTex1.LoadBMP("chairTex.bmp");
 
-	
-
+	house = new Model_3DS();
+	house->Load("House Cyprys N111220.3ds");
+	houseTex1.LoadBMP("houseTex1.bmp");
+	houseTex2.LoadBMP("houseTex2.bmp");
+	houseTex3.LoadBMP("houseTex3.bmp");
+	houseTex4.LoadBMP("houseTex4.bmp");
+	houseTex5.LoadBMP("houseTex5.bmp");
+	houseTex6.LoadBMP("houseTex6.bmp");
+	houseTex7.LoadBMP("houseTex7.bmp");
 
 
 	return TRUE;										// Initialization Went OK
 }
 
 float angle1 = -0.5, angle2 = 0, angle3 = 0;
-float xd = 0, yd = -50, zd = 200;//mkan
+float xd = 0, yd = 100, zd = 0	;//mkan
 float looking = 0.05;
 float velocity = 2;//sr3et al mshe
 float cosMovingLength = 50;
@@ -1482,19 +1550,128 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 
 	//---------------------------------------------------skybox start-------------------------------------------------------------------
 
-	skyBox thire(0,100,-1600,image5,image2,image1,image4,image3,grass);//sea
-	thire.drawRail(rail);
-	skyBox first(0,100,0,snowYmen,snowYsar,snow2dam,snowWra,snowFo2,snowT7t);
+	skyBox third(0,100,-1600,forestYmen,forestYsar,forest2dam,forestWra,forestFo2,forestT7t,0,0);
+	third.drawRail(rail);
+	
+
+
+
+
+	skyBox first(0,100,0,snowYmen,snowYsar,snow2dam,snowWra,snowFo2,snowT7t,1,0);
 	first.drawRail(rail);
-	skyBox seconde(0,100,-800,mountainYmen,mountainYsar,mountain2dam,mountainWra,mountainFo2,mountainT7t);
+
+
+	//benches
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	glTranslated(60,-95,-50);
+	bench->pos.x=0;
+	bench->pos.y=0;
+	bench->pos.z=0;
+	bench->scale=0.001;
+	bench->Materials[0].tex=chaitTex1;
+	bench->Materials[1].tex=chaitTex;
+	bench->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	glTranslated(0,-95,-50);
+	bench->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	glTranslated(-60,-95,-50);
+	bench->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	glTranslated(-60,-95,-50);
+	bench->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	glTranslated(0,-95,-50);
+	bench->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	glTranslated(+60,-95,-50);
+	bench->Draw();
+	glPopMatrix();
+
+
+	//houses
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	glTranslated(+120,-70,-120);
+	house->pos.x=0;
+	house->pos.y=0;
+	house->pos.z=0;
+	house->scale=8;
+	house->Materials[0].tex=houseTex1;
+	house->Materials[1].tex=houseTex2;
+	house->Materials[2].tex=houseTex3;
+	house->Materials[3].tex=houseTex4;
+	house->Materials[4].tex=houseTex5;
+	house->Materials[5].tex=houseTex6;
+	house->Materials[6].tex=houseTex7;
+	house->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	glTranslated(-120,-70,-120);
+	house->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	glTranslated(+120,-70,-120);
+	house->Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	glTranslated(-120,-70,-120);
+	house->Draw();
+	glPopMatrix();
+
+
+
+
+	skyBox seconde(0,100,-800,mountainYmen,mountainYsar,mountain2dam,mountainWra,mountainFo2,mountainT7t,0,0);
 	seconde.drawRail(rail);
+
+	skyBox fourth(0,100,-2400,desertYmen,desertYsar,desert2dam,desertWra,desertFo2,desertT7t,0,0);
+	fourth.drawRail(rail);
+
+	skyBox fifth(0,100,-3200,nightYmen,nightYsar,night2dam,nightWra,nightFo2,nightT7t,0,1);
+	fifth.drawRail(rail);
+	
+
+
+
 
 	tunnel firstTunnel(0,-25,-400,40,75,200,tunel1,tunel1,roof,road2);
 	firstTunnel.drawTunnel();
 	firstTunnel.drawRail(rail);
+
 	tunnel secondeTunnel(0,-25,-1200,40,75,200,tunel1,tunel1,roof,road2);
 	secondeTunnel.drawTunnel();
 	secondeTunnel.drawRail(rail);
+
+	tunnel thirdTunnel(0,-25,-2000,40,75,200,tunel1,tunel1,roof,road2);
+	thirdTunnel.drawTunnel();
+	thirdTunnel.drawRail(rail);
+
+	tunnel fourthTunnel(0,-25,-2800,40,75,200,tunel1,tunel1,roof,road2);
+	fourthTunnel.drawTunnel();
+	fourthTunnel.drawRail(rail);
 
 
 	//------------------------------------------------train drow----------------------------------------------------------------------
@@ -1565,9 +1742,8 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	
 
 
-
-
-
+	
+	
 
 
 
