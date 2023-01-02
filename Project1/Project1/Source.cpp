@@ -491,6 +491,8 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 
 
+
+
 // aya's functions ----------------------------------------------------------------------------------------------------------------------------
 
 int wall, ground, wall2, wall3, door, wheel;
@@ -1308,6 +1310,8 @@ void RoomWithWindow(float x = 0, float y = 0, float z = 0) {
 	DrawEntrance(25,0,0);
 
 	glPopMatrix();
+	glColor3f(1,1,1);
+
 	
 }
 
@@ -1410,7 +1414,7 @@ void RoomWithOutWindow(float x = 0, float y = 0, float z = 0) {
     DrawEntrance(25,0,0);
 
 	glPopMatrix();
-	
+	glColor3f(1,1,1);
 }
 
 
@@ -1440,6 +1444,1640 @@ GLTexture chaitTex,chaitTex1;
 
 Model_3DS*house;
 GLTexture houseTex1,houseTex2,houseTex3,houseTex4,houseTex5,houseTex6,houseTex7;
+
+Model_3DS*projector;
+GLTexture projectorTex;
+
+Model_3DS*armchair;
+GLTexture armChairTex1,armChairTex2,armChairTex3,armChairTex4;
+
+Model_3DS*sofa;
+GLTexture sofaTex1,sofaTex2;
+
+Model_3DS*table;
+GLTexture tableTex;
+
+Model_3DS*bookCase;
+GLTexture bookCaseTex1,bookCaseTex2,bookCaseTex3;
+
+Model_3DS*chair;
+GLTexture chairTex1,chairTex2;
+
+Model_3DS*sofaChair;
+GLTexture sofaChairTex1,sofaChairTex2,sofaChairTex3;
+
+int bookcase,shelfWood;
+
+
+
+
+
+
+
+
+//anas,functions ---------------------------------------------------------------------------------------------------------------------------------
+
+void drawCinemaSeats(float x,float y,float z){
+glPushMatrix();
+glTranslatef(x,y,z);
+ glTranslated(0,-7.5,0);
+ glRotated(90,0,1,0);
+ armchair->Materials[0].tex=armChairTex2;
+ armchair->Materials[1].tex=armChairTex3;
+ armchair->Materials[2].tex=armChairTex1;
+ armchair->Materials[3].tex=armChairTex4;
+ armchair->Materials[4].tex=armChairTex1;
+ //2
+ armchair->pos.x=-5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //3
+ armchair->pos.x=+5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //secondRow
+ glTranslated(0,0,-5);
+ 
+ //2
+ armchair->pos.x=-5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //3
+ armchair->pos.x=+5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //thirdRow
+ glTranslated(0,0,10);
+ 
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //2
+ armchair->pos.x=-5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //3
+ armchair->pos.x=+5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //fourthRow
+ glTranslated(0,0,-15);
+ 
+ //2
+ armchair->pos.x=-5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //3
+ armchair->pos.x=+5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //fifthRow
+ glTranslated(0,0,-5);
+ 
+ //2
+ armchair->pos.x=-5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+ //3
+ armchair->pos.x=+5;
+ armchair->pos.y=0;
+ armchair->pos.z=0;
+
+ armchair->scale=0.05;
+ armchair->Draw();
+
+ 
+ glPopMatrix();
+
+}
+void CINEMA(float x=0,float y=0,float z=0){
+
+//screen
+ glPushMatrix();
+ glTranslatef(x,y,z);
+ glTranslated(0,0,-24.5);
+ glPopMatrix();
+ //projector
+ glPushMatrix();
+ glTranslatef(x,y,z);
+ glTranslated(0,2,0);
+ glRotated(0,0,1,0);
+ projector->pos.x=1;
+ projector->pos.y=1;
+ projector->pos.z=1;
+
+ projector->scale=0.07;
+ projector->Materials[0].tex=projectorTex;
+ projector->Materials[1].tex=projectorTex;
+ projector->Draw();
+
+ 
+ glPopMatrix();
+ //seats
+
+ drawCinemaSeats(x,y,z);
+
+
+}
+void drawBox(float x,float y,float z,int image1,int image2,int image3,int image4,int image5,int image6){
+	
+
+
+	glBindTexture(GL_TEXTURE_2D,image3);
+	glBegin(GL_QUADS);
+	    //front
+	    
+		glTexCoord2f(0.0f,1.0f);
+		glVertex3f(-x,y,z);
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(-x,-y,z);
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(x,-y,z);
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(x,y,z);
+		glEnd();
+		//back
+	glBindTexture(GL_TEXTURE_2D,image6);
+	glBegin(GL_QUADS);
+	
+	    glTexCoord2f(0.0f,1.0f);
+		glVertex3f(x,y,-z);
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(x,-y,-z);
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(-x,-y,-z);
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(-x,y,-z);
+		glEnd();
+		//right
+	glBindTexture(GL_TEXTURE_2D,image1);
+	glBegin(GL_QUADS);
+	
+	    glTexCoord2f(0.0f,1.0f);
+		glVertex3f(x,y,z);
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(x,-y,z);
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(x,-y,-z);
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(x,y,-z);
+		glEnd();
+		//left
+	glBindTexture(GL_TEXTURE_2D,image4);
+	glBegin(GL_QUADS);
+	
+	    glTexCoord2f(0.0f,1.0f);
+		glVertex3f(-x,y,-z);
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(-x,-y,-z);
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(-x,-y,z);
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(-x,y,z);
+		glEnd();
+		//top
+	glBindTexture(GL_TEXTURE_2D,image2);
+	glBegin(GL_QUADS);
+	
+	    glTexCoord2f(0.0f,1.0f);
+		glVertex3f(-x,y,-z);
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(-x,y,z);
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(x,y,z);
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(x,y,-z);
+		glEnd();
+		//bottom
+	glBindTexture(GL_TEXTURE_2D,image5);
+	glBegin(GL_QUADS);
+	
+	    glTexCoord2f(0.0f,1.0f);
+		glVertex3f(-x,-y,-z);
+		glTexCoord2f(0.0f,0.0f);
+		glVertex3f(-x,-y,z);
+		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(x,-y,z);
+		glTexCoord2f(1.0f,1.0f);
+		glVertex3f(x,-y,-z);
+
+	glEnd();
+	
+	
+	
+
+};
+
+//batoul's functions ---------------------------------------------------------------------------------------------------------------------------
+
+int comodena,comodena2,closet,closet2,bord,imagclass1,imagclass2,coal,monalisa,food;
+
+
+//------------------------------------------------ furnitures ----------------------------------------------------------------------
+
+
+
+
+void drawTable(double x,double y,double z,double a,double b, double c) {
+	
+	 glTranslatef(x, y, z);
+	glScaled(a,b,c);
+	//glTranslated(x,y,z);
+	glBegin(GL_QUADS);
+
+	//Front
+	//
+	glColor3f(.6,.2,0);
+	glVertex3f(-4.0f, -0.2f, 2.0f);
+	glVertex3f(2.0f, -0.2f, 2.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(-4.0f, 0.2f, 2.0f);
+
+	//Back
+	//;
+	glVertex3f(-4.0f, -0.2f, -2.0f);
+	glVertex3f(-4.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, -0.2f, -2.0f);
+
+	//Right
+	//
+	glVertex3f(2.0f, -0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(2.0f, -0.2f, 2.0f);
+
+
+	//Left
+	;
+	glVertex3f(-4.0f, -0.2f, -2.0f);
+	glVertex3f(-4.0f, -0.2f, 2.0f);
+	glVertex3f(-4.0f, 0.2f, 2.0f);
+	glVertex3f(-4.0f, 0.2f, -2.0f);
+
+	//top
+	//
+
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(-4.0f, 0.2f, 2.0f);
+	glVertex3f(-4.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+
+	//bottom
+	;
+
+	glVertex3f(2.0f, -0.2f, 2.0f);
+	glVertex3f(-4.0f, -0.2f, 2.0f);
+	glVertex3f(-4.0f, -0.2f, -2.0f);
+	glVertex3f(2.0f, -0.2f, -2.0f);
+
+	//table front leg
+	//front
+	//
+	glColor3f(.8f, .6f, 0.0f);
+	glVertex3f(1.8f, -0.2f, 1.6f);
+	glVertex3f(1.4f, -0.2f, 1.6f);
+	glVertex3f(1.4f, -3.0f, 1.6f);
+	glVertex3f(1.8f, -3.0f, 1.6f);
+
+	//back
+	//;
+
+	glVertex3f(1.8f, -0.2f, 1.2f);
+	glVertex3f(1.4f, -0.2f, 1.2f);
+	glVertex3f(1.4f, -3.0f, 1.2f);
+	glVertex3f(1.8f, -3.0f, 1.2f);
+
+	//right
+	//
+
+	glVertex3f(1.8f, -0.2f, 1.6f);
+	glVertex3f(1.8f, -0.2f, 1.2f);
+	glVertex3f(1.8f, -3.0f, 1.2f);
+	glVertex3f(1.8f, -3.0f, 1.6f);
+
+	//left
+	//;
+
+	glVertex3f(1.4f, -0.2f, 1.6f);
+	glVertex3f(1.4f, -0.2f, 1.2f);
+	glVertex3f(1.4f, -3.0f, 1.2f);
+	glVertex3f(1.4f, -3.0f, 1.6f);
+
+	//back leg back
+	//front
+	//;
+	glVertex3f(1.8f, -0.2f, -1.2f);
+	glVertex3f(1.4f, -0.2f, -1.2f);
+	glVertex3f(1.4f, -3.0f, -1.2f);
+	glVertex3f(1.8f, -3.0f, -1.2f);
+
+	//back
+	//;
+
+	glVertex3f(1.8f, -0.2f, -1.6f);
+	glVertex3f(1.4f, -0.2f, -1.6f);
+	glVertex3f(1.4f, -3.0f, -1.6f);
+	glVertex3f(1.8f, -3.0f, -1.6f);
+
+	//right
+	//
+
+	glVertex3f(1.8f, -0.2f, -1.6f);
+	glVertex3f(1.8f, -0.2f, -1.2f);
+	glVertex3f(1.8f, -3.0f, -1.2f);
+	glVertex3f(1.8f, -3.0f, -1.6f);
+
+	//left
+	//
+
+	glVertex3f(1.4f, -0.2f, -1.6f);
+	glVertex3f(1.4f, -0.2f, -1.2f);
+	glVertex3f(1.4f, -3.0f, -1.2f);
+	glVertex3f(1.4f, -3.0f, -1.6f);
+
+	//leg left front
+	//
+
+	
+	glVertex3f(-3.8f, -0.2f, 1.6f);
+	glVertex3f(-3.4f, -0.2f, 1.6f);
+	glVertex3f(-3.4f, -3.0f, 1.6f);
+	glVertex3f(-3.8f, -3.0f, 1.6f);
+
+	//back
+	//;
+
+	glVertex3f(-3.8f, -0.2f, 1.2f);
+	glVertex3f(-3.4f, -0.2f, 1.2f);
+	glVertex3f(-3.4f, -3.0f, 1.2f);
+	glVertex3f(-3.8f, -3.0f, 1.2f);
+
+	//right
+
+
+	glVertex3f(-3.8f, -0.2f, 1.6f);
+	glVertex3f(-3.8f, -0.2f, 1.2f);
+	glVertex3f(-3.8f, -3.0f, 1.2f);
+	glVertex3f(-3.8f, -3.0f, 1.6f);
+
+	//left
+	;
+
+	glVertex3f(-3.4f, -0.2f, 1.6f);
+	glVertex3f(-3.4f, -0.2f, 1.2f);
+	glVertex3f(-3.4f, -3.0f, 1.2f);
+	glVertex3f(-3.4f, -3.0f, 1.6f);
+
+	//left leg back front
+
+	//front
+	;
+	//glColor3f(1,1,1);
+	glVertex3f(-3.8f, -0.2f, -1.2f);
+	glVertex3f(-3.4f, -0.2f, -1.2f);
+	glVertex3f(-3.4f, -3.0f, -1.2f);
+	glVertex3f(-3.8f, -3.0f, -1.2f);
+
+	//back
+	;
+
+	glVertex3f(-3.8f, -0.2f, -1.6f);
+	glVertex3f(-3.4f, -0.2f, -1.6f);
+	glVertex3f(-3.4f, -3.0f, -1.6f);
+	glVertex3f(-3.8f, -3.0f, -1.6f);
+
+	//right
+
+
+	glVertex3f(-3.8f, -0.2f, -1.6f);
+	glVertex3f(-3.8f, -0.2f, -1.2f);
+	glVertex3f(-3.8f, -3.0f, -1.2f);
+	glVertex3f(-3.8f, -3.0f, -1.6f);
+
+	//left
+
+
+	glVertex3f(-3.4f, -0.2f, -1.6f);
+	glVertex3f(-3.4f, -0.2f, -1.2f);
+	glVertex3f(-3.4f, -3.0f, -1.2f);
+	glVertex3f(-3.4f, -3.0f, -1.6f);
+
+
+
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+
+	
+}
+
+
+
+static GLfloat v_cube[8][3] =
+{
+    {0.0, 0.0, 0.0}, //0
+    {0.0, 0.0, 3.0}, //1
+    {3.0, 0.0, 3.0}, //2
+    {3.0, 0.0, 0.0}, //3
+    {0.0, 3.0, 0.0}, //4
+    {0.0, 3.0, 3.0}, //5
+    {3.0, 3.0, 3.0}, //6
+    {3.0, 3.0, 0.0}  //7
+};
+
+static GLubyte quadIndices[6][4] =
+{
+    {0, 1, 2, 3}, //bottom
+    {4, 5, 6, 7}, //top
+    {5, 1, 2, 6}, //front
+    {0, 4, 7, 3}, // back is clockwise
+    {2, 3, 7, 6}, //right
+    {1, 5, 4, 0}  //left is clockwise
+};
+
+
+
+void drawcoalcupe(double x,double y,double z,double a,double b,double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	glRotatef(90,0,1,0);
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,coal);
+	//front
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+
+	
+	glBindTexture(GL_TEXTURE_2D,coal);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,-1);
+	
+	glEnd();
+
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(1,3,1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(-2, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,-1,-1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, 3, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,-1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,-1,-1);
+	
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+	
+}
+
+void drawcoal(double x,double y,double z,double a,double b,double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	 drawcoalcupe(0,0,0,1,1,1);
+	 glRotated(45,0,1,0);
+	 drawcoalcupe(2,0,0,1,1,1);
+	 glRotated(45,0,1,1);
+	 	 drawcoalcupe(3,0,0,1,1,1);
+		 glRotated(45,0,1,1);
+		  drawcoalcupe(0,0,3,1,1,1);
+		  drawcoalcupe(-2,0,3,1,1,1);
+		  drawcoalcupe(-3,0,2,1,1,1);
+		  glPopMatrix();
+}
+
+
+void drawcloset(double x,double y,double z,double a,double b,double c){
+
+	
+
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	glRotatef(90,0,1,0);
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,closet);
+	//front
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+
+	
+	glBindTexture(GL_TEXTURE_2D,closet2);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,-1);
+	
+	glEnd();
+
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(1,3,1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(-2, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,-1,-1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, 3, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,-1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,-1,-1);
+	
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+
+}
+
+
+void drawcomodena(double x,double y,double z,double a,double b,double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	glRotatef(90,0,1,0);
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,comodena);
+	//front
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+
+	
+	glBindTexture(GL_TEXTURE_2D,comodena2);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,-1);
+	
+	glEnd();
+
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(1,3,1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(-2, -1, -1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,3, -1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,-1,-1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,3, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, 3, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,-1);
+	
+	glEnd();
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(1,-1, -1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,-1,-1);
+	
+	glEnd();
+	glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
+
+}
+
+
+void drawCube()
+{
+    glBegin(GL_QUADS);
+    for (GLint i = 0; i <6; i++)
+    {
+        glVertex3fv(&v_cube[quadIndices[i][0]][0]);
+        glVertex3fv(&v_cube[quadIndices[i][1]][0]);
+        glVertex3fv(&v_cube[quadIndices[i][2]][0]);
+        glVertex3fv(&v_cube[quadIndices[i][3]][0]);
+    }
+    glEnd();
+}
+
+void drawbed(double x,double y,double z,double a,double b,double c)
+{ 
+	glTranslated(x,y,z);
+	//glTranslatef(-5.0f, -1.0f, -10.0f); 
+	glRotatef(90,0,1,0);
+	glScaled(a,b,c);
+    //bed headboard
+    glColor3f(0.5,0.2,0.2);
+    glPushMatrix();
+    glScalef(0.1, 0.5, 0.9);
+    glTranslatef(-2,-0.5,6);
+    drawCube();
+    glPopMatrix();
+    
+    //bed body
+    glColor3f(0.824, 0.706, 0.549);
+    glPushMatrix();
+    glScalef(1, 0.2, 0.9); //1, 0.2, 0.9
+    glTranslatef(0,-0.5,6.2);
+    drawCube();
+    glPopMatrix();
+    
+    //pillow right far
+    glColor3f(255, 0, 0);
+    glPushMatrix();
+    glTranslatef(0.5,0.5,6);
+    glRotatef(20, 0,0,1);
+    glScalef(0.1, 0.15, 0.28);
+    drawCube();
+    glPopMatrix();
+    
+    //pillow left near
+    glColor3f(255, 0, 0);
+    glPushMatrix();
+    glTranslatef(0.5,0.5,7.2);
+    glRotatef(22, 0,0,1);
+    glScalef(0.1, 0.15, 0.28);
+    drawCube();
+    glPopMatrix();
+    
+    //blanket
+    glColor3f(255, 0, 0);
+    glPushMatrix();
+    glTranslatef(1.4,0.45,5.5);
+    //glRotatef(22, 0,0,1);
+    glScalef(0.5, 0.05, 0.95);
+    drawCube();
+    glPopMatrix();
+    
+    //blanket side left part
+    glColor3f(255, 0, 0);
+    glPushMatrix();
+    glTranslatef(1.4,-0.3,8.15);
+    //glRotatef(22, 0,0,1);
+    glScalef(0.5, 0.25, 0.05);
+    drawCube();
+    glPopMatrix();
+    glColor3d(1,1,1);
+}
+
+void drawbedsideTable()
+{
+    //bedside drawer *************************************
+    // glTranslated(x,y,z);
+	//glTranslatef(-5.0f, -1.0f, -10.0f); 
+	//glScaled(a,b,c);
+      //side drawer
+      glColor3f(0.2,0.1,0.1); //0.5,0.2,0.2
+      glPushMatrix();
+      glTranslatef(0.5,-0.1,8.7); //0.5,-0.1,9
+      //glRotatef(22, 0,0,1);
+      glScalef(0.12, 0.2, 0.23);
+      drawCube();
+      glPopMatrix();
+      
+      //side drawer's drawer
+      glColor3f(0.3,0.2,0.2);
+      glPushMatrix();
+      glTranslatef(0.88,0,8.8);
+      //glRotatef(22, 0,0,1);
+      glScalef(0.0001, 0.11, 0.18);
+      drawCube();
+      glPopMatrix();
+      
+      //side drawer's knob
+      glColor3f(0.3, 0.1, 0.0);
+      glPushMatrix();
+      glTranslatef(0.9,0.1,9);
+      //glRotatef(22, 0,0,1);
+      glScalef(0.0001, 0.04, 0.04);
+      drawCube();
+      glPopMatrix();
+	  glColor3d(1,1,1);
+}
+
+void drawlamp()
+{
+   
+         //glTranslated(x,y,z);
+	//glTranslatef(-5.0f, -1.0f, -10.0f); 
+	//glScaled(a,b,c);
+        //lamp base
+        glColor3f(0,0,1);
+        glPushMatrix();
+        glTranslatef(0.6,0.5,9.1);
+        glScalef(0.07, 0.02, 0.07);
+        drawCube();
+        glPopMatrix();
+        
+        //lamp stand
+        glColor3f(1,0,0);
+        glPushMatrix();
+        glTranslatef(.7,0.35,9.2);
+        glScalef(0.01, 0.2, 0.01);
+        drawCube();
+        glPopMatrix();
+        
+        //lamp shade
+        glColor3f(0.000, 0.000, 0.545);
+        glPushMatrix();
+        glTranslatef(.7,0.9,9.2);
+        glScalef(0.08, 0.09, 0.08);
+        drawCube();
+        glPopMatrix();
+		glColor3d(1,1,1);
+        
+}
+
+
+void drawchair(double x,double y,double z,double a,double b, double c) {
+	
+	glRotatef(180, 0.0f, 1.0f, 0.0f);
+	
+	glScaled(a,b,c);
+	glTranslated(x,y,z);
+		
+	glColor3f(0.4f, 0.302f, 0.0f);
+	glBegin(GL_QUADS);
+
+	//Front
+	//
+	glVertex3f(-2.0f, 0.2f, 2.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, 2.0f);
+
+	//Right
+	//
+	glVertex3f(2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+
+	//Back
+	//;
+	glVertex3f(-2.0f, 0.2f, -2.0f);
+	glVertex3f(-2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+
+	//Left
+	;
+	glVertex3f(-2.0f, 0.2f, -2.0f);
+	glVertex3f(-2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, -2.0f);
+
+	//top
+	//
+
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+
+	//bottom
+	;
+
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, 2.0f);
+	glVertex3f(-2.0f, 0.2f, -2.0f);
+	glVertex3f(2.0f, 0.2f, -2.0f);
+
+	//table front leg
+	//front
+	//
+
+	glVertex3f(1.8f, 0.2f, 1.6f);
+	glVertex3f(1.4f, 0.2f, 1.6f);
+	glVertex3f(1.4f, -3.0f, 1.6f);
+	glVertex3f(1.8f, -3.0f, 1.6f);
+
+	//back
+	//;
+
+	glVertex3f(1.8f, 0.2f, 1.2f);
+	glVertex3f(1.4f, 0.2f, 1.2f);
+	glVertex3f(1.4f, -3.0f, 1.2f);
+	glVertex3f(1.8f, -3.0f, 1.2f);
+
+	//right
+	//
+
+	glVertex3f(1.8f, 0.2f, 1.6f);
+	glVertex3f(1.8f, 0.2f, 1.2f);
+	glVertex3f(1.8f, -3.0f, 1.2f);
+	glVertex3f(1.8f, -3.0f, 1.6f);
+
+	//left
+	//;
+
+	glVertex3f(1.4f, 0.2f, 1.6f);
+	glVertex3f(1.4f, 0.2f, 1.2f);
+	glVertex3f(1.4f, -3.0f, 1.2f);
+	glVertex3f(1.4f, -3.0f, 1.6f);
+
+	//back leg back
+	//front
+	//;
+
+	glVertex3f(1.8f, 0.2f, -1.2f);
+	glVertex3f(1.4f, 0.2f, -1.2f);
+	glVertex3f(1.4f, -3.0f, -1.2f);
+	glVertex3f(1.8f, -3.0f, -1.2f);
+
+	//back
+	//;
+
+	glVertex3f(1.8f, 0.2f, -1.6f);
+	glVertex3f(1.4f,0.2f, -1.6f);
+	glVertex3f(1.4f, -3.0f, -1.6f);
+	glVertex3f(1.8f, -3.0f, -1.6f);
+
+	//right
+	//
+
+	glVertex3f(1.8f, 0.2f, -1.6f);
+	glVertex3f(1.8f, 0.2f, -1.2f);
+	glVertex3f(1.8f, -3.0f, -1.2f);
+	glVertex3f(1.8f, -3.0f, -1.6f);
+
+	//left
+	//
+
+	glVertex3f(1.4f, 0.2f, -1.6f);
+	glVertex3f(1.4f, 0.2f, -1.2f);
+	glVertex3f(1.4f, -3.0f, -1.2f);
+	glVertex3f(1.4f, -3.0f, -1.6f);
+
+	//leg left front
+	//
+
+	glVertex3f(-1.8f, 0.2f, 1.6f);
+	glVertex3f(-1.4f, 0.2f, 1.6f);
+	glVertex3f(-1.4f, -3.0f, 1.6f);
+	glVertex3f(-1.8f, -3.0f, 1.6f);
+
+	//back
+	//;
+
+	glVertex3f(-1.8f, 0.2f, 1.2f);
+	glVertex3f(-1.4f, 0.2f, 1.2f);
+	glVertex3f(-1.4f, -3.0f, 1.2f);
+	glVertex3f(-1.8f, -3.0f, 1.2f);
+
+	//right
+
+
+	glVertex3f(-1.8f, 0.2f, 1.6f);
+	glVertex3f(-1.8f, 0.2f, 1.2f);
+	glVertex3f(-1.8f, -3.0f, 1.2f);
+	glVertex3f(-1.8f, -3.0f, 1.6f);
+
+	//left
+	;
+
+	glVertex3f(-1.4f, 0.2f, 1.6f);
+	glVertex3f(-1.4f, 0.2f, 1.2f);
+	glVertex3f(-1.4f, -3.0f, 1.2f);
+	glVertex3f(-1.4f, -3.0f, 1.6f);
+
+	//left leg back front
+
+	//front
+	;
+
+	glVertex3f(-1.8f, 0.2f, -1.2f);
+	glVertex3f(-1.4f, 0.2f, -1.2f);
+	glVertex3f(-1.4f, -3.0f, -1.2f);
+	glVertex3f(-1.8f, -3.0f, -1.2f);
+
+	//back
+	;
+
+	glVertex3f(-1.8f, 0.2f, -1.6f);
+	glVertex3f(-1.4f, 0.2f, -1.6f);
+	glVertex3f(-1.4f, -3.0f, -1.6f);
+	glVertex3f(-1.8f, -3.0f, -1.6f);
+
+	//right
+
+
+	glVertex3f(-1.8f, 0.2f, -1.6f);
+	glVertex3f(-1.8f, 0.2f, -1.2f);
+	glVertex3f(-1.8f, -3.0f, -1.2f);
+	glVertex3f(-1.8f, -3.0f, -1.6f);
+
+	//left
+
+
+	glVertex3f(-1.4f, 0.2f, -1.6f);
+	glVertex3f(-1.4f, 0.2f, -1.2f);
+	glVertex3f(-1.4f, -3.0f, -1.2f);
+	glVertex3f(-1.4f, -3.0f, -1.6f);
+
+	//chair back
+	//front
+
+
+
+
+
+	//;
+	//chair upper part 
+	glColor3f(0.902, 0.902, 0);
+	glVertex3f(-1.8f, 1.2f, -1.8f);
+	glVertex3f(1.8f, 1.2f, -1.8f);
+	glVertex3f(1.8f, 3.5f, -1.8f);
+	glVertex3f(-1.8f, 3.5f, -1.8f);
+
+	glVertex3f(-1.8f, 1.2f, -0.6f);
+	glVertex3f(1.8f, 1.2f, -0.6f);
+	glVertex3f(1.8f, 3.5f, -0.6f);
+	glVertex3f(-1.8f, 3.5f, -0.6f);
+
+	//chair upper side
+	glColor3f(1, 1, 0.4);
+	glVertex3f(-1.8f, 1.2f, -1.80f);
+	glVertex3f(-1.8f, 1.2f, -0.6f);
+	glVertex3f(-1.8f, 3.5f, -0.6f);
+	glVertex3f(-1.8f, 3.5f, -1.8f);
+
+	glVertex3f(1.8f, 1.2f, -1.80f);
+	glVertex3f(1.8f, 1.2f, -0.6f);
+	glVertex3f(1.8f, 3.5f, -0.6f);
+	glVertex3f(1.8f, 3.5f, -1.8f);
+
+	//chiar upper top 
+	glColor3f(1, 1, 0);
+	glVertex3f(-1.8f, 3.5f, -1.80f);
+	glVertex3f(-1.8f, 3.5f, -0.6f);
+	glVertex3f(1.8f, 3.5f, -0.6f);
+	glVertex3f(1.8f, 3.5f, -1.8f);
+
+	glVertex3f(-1.8f, 1.2f, -1.80f);
+	glVertex3f(-1.8f, 1.2f, -0.6f);
+	glVertex3f(1.8f, 1.2f, -0.6f);
+	glVertex3f(1.8f, 1.2f, -1.8f);
+
+	// chair top legs 
+
+	glColor3f(0.2, 0.2, 0.0);
+	//side walls
+	glVertex3f(-1.2f, 1.2f, -1.20f);
+	glVertex3f(-1.2f, 1.2f, -0.6f);
+	glVertex3f(-1.2f, .2f, -0.6f);
+	glVertex3f(-1.2f, .2f, -1.2f);
+
+	glVertex3f(-.8f, 1.2f, -1.20f);
+	glVertex3f(-.8f, 1.2f, -0.6f);
+	glVertex3f(-.8f, .2f, -0.6f);
+	glVertex3f(-.8f, .2f, -1.2f);
+
+	//froont walls adnd back walls
+	glVertex3f(-1.2f, 1.2f, -1.2f);
+	glVertex3f(-0.8f, 1.2f, -1.2f);
+	glVertex3f(-0.8f, .2f, -1.2f);
+	glVertex3f(-1.2f, .2f, -1.2f);
+
+	glVertex3f(-1.2f, 1.2f, -0.6f);
+	glVertex3f(-0.8f, 1.2f, -0.6f);
+	glVertex3f(-0.8f, .2f, -0.6f);
+	glVertex3f(-1.2f, .2f, -0.6f);
+
+	//side walls
+	glVertex3f(1.2f, 1.2f, -1.20f);
+	glVertex3f(1.2f, 1.2f, -0.6f);
+	glVertex3f(1.2f, .2f, -0.6f);
+	glVertex3f(1.2f, .2f, -1.2f);
+
+	glVertex3f(.8f, 1.2f, -1.20f);
+	glVertex3f(.8f, 1.2f, -0.6f);
+	glVertex3f(.8f, .2f, -0.6f);
+	glVertex3f(.8f, .2f, -1.2f);
+
+	//froont walls adnd back walls
+	glColor3f(0.2, 0.2, 0.0);
+	glVertex3f(1.2f, 1.2f, -1.2f);
+	glVertex3f(0.8f, 1.2f, -1.2f);
+	glVertex3f(0.8f, .2f, -1.2f);
+	glVertex3f(1.2f, .2f, -1.2f);
+
+	glVertex3f(1.2f, 1.2f, -0.6f);
+	glVertex3f(0.8f, 1.2f, -0.6f);
+	glVertex3f(0.8f, .2f, -0.6f);
+	glVertex3f(1.2f, .2f, -0.6f);
+
+	//glVertex3f()
+
+	glEnd();
+	glColor3d(1,1,1);
+
+}
+
+void drawbord(double x,double y,double z,double a,double b, double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,bord);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(4, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(4,6, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,6,1);
+	
+	glEnd();
+	glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
+
+}
+
+
+void drawimageclass1(double x,double y,double z,double a,double b, double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,imagclass1);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+	glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
+
+}
+
+void drawimageclass2(double x,double y,double z,double a,double b, double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,imagclass2);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+	glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
+
+}
+
+
+void drawmonalisa(double x,double y,double z,double a,double b, double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,monalisa);
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+	glVertex3f(-2,-1, 1);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(1, -1, 1);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(1,3, 1);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-2,3,1);
+	
+	glEnd();
+	glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
+
+}
+
+
+void drawfood(double x,double y,double z,double a,double b, double c){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glScaled(a,b,c);
+	
+	glColor3ub(255, 255, 255);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,food);
+	
+	
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f);
+    glVertex3f(2.0f, 0.2f, -2.0f);
+	
+	glTexCoord2f(1.0f,0.0f);
+	glVertex3f(2.0f, 0.2f, 2.0f);
+	
+	glTexCoord2f(1.0f,1.0f);
+	glVertex3f(-4.0f, 0.2f, 2.0f);
+	
+	glTexCoord2f(0.0f,1.0f);
+	glVertex3f(-4.0f, 0.2f, -2.0f);
+	
+	glEnd();
+	
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+
+}
+
+
+
+//------------------------------------------------room object function----------------------------------------------------------------------
+
+
+
+void bedroom(double x,double y,double z){
+	glPushMatrix();
+glTranslated(x,y,z);
+	drawbed(-23,-10,9,3,5,3);
+	drawbedsideTable();
+	drawlamp();
+	glTranslated(0,0,-4.5);
+	drawbedsideTable();
+	drawlamp();
+	//glTranslated(0,0,+1);
+	//drowcomodena(5,0,10,0.3,0.3,0.3);
+	
+	drawcloset(0.6,0.5,6,0.7,0.7,1);
+	drawcomodena(0.6,0.3,16,0.3,0.2,0.4);
+	glPopMatrix();
+}
+
+
+void classroom(double x,double y,double z){
+	glPushMatrix();
+glTranslated(x,y,z);
+drawbord(0,-1,-10,3,1.5,1);
+drawimageclass1(15,2,-10,1,1,1);
+drawimageclass2(-15,2,-10,1.5,1.5,1);
+glPushMatrix();
+drawchair(20,-4,-7.5,1,1.5,1);
+glTranslated(1,0,3);
+drawTable(0,0,0,1,1,1);
+glPopMatrix();
+
+glTranslated(8,0,0);
+glPushMatrix();
+drawchair(20,-4,-7.5,1,1.5,1);
+glTranslated(1,0,3);
+drawTable(0,0,0,1,1,1);
+glPopMatrix();
+
+glTranslated(8,0,0);
+glPushMatrix();
+drawchair(20,-4,-7.5,1,1.5,1);
+glTranslated(1,0,3);
+drawTable(0,0,0,1,1,1);
+glPopMatrix();
+
+glTranslated(8,0,0);
+glPushMatrix();
+drawchair(20,-4,-7.5,1,1.5,1);
+glTranslated(1,0,3);
+drawTable(0,0,0,1,1,1);
+glPopMatrix();
+
+glTranslated(8,0,0);
+glPushMatrix();
+drawchair(20,-4,-7.5,1,1.5,1);
+glTranslated(1,0,3);
+drawTable(0,0,0,1,1,1);
+glPopMatrix();
+
+glTranslated(8,0,0);
+glPushMatrix();
+drawchair(20,-4,-7.5,1,1.5,1);
+glTranslated(1,0,3);
+drawTable(0,0,0,1,1,1);
+glPopMatrix();
+
+
+glPopMatrix();
+
+}
+
+void foodroom(double x,double y,double z){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	glPushMatrix();
+	drawTable(0,-4,-5,3,2,2);
+	glPopMatrix();
+	glPushMatrix();
+	drawchair(-2,-4,0,1.5,1.5,1);
+	glPopMatrix();
+	glPushMatrix();
+	drawchair(4,-4,0,1.5,1.5,1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	drawchair(-4,-4,-8,1.5,1.5,1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	
+	drawchair(4,-4,-13,1.5,1.5,1);
+	glPopMatrix();
+	drawfood(0,-4,-5,3,2,2);
+	glPushMatrix();
+	glRotated(90,0,1,0);
+	drawmonalisa(8,-3,23,1.6,1.6,1.6);
+	glPopMatrix();
+	glPopMatrix();
+}
+
+void drivingroom(double x,double y,double z){
+	glPushMatrix();
+	glTranslated(x,y,z);
+	drawcoal(-3,-8,-5,1,1,1);
+	glPopMatrix();
+}
+
+
+void drawLib(float x,float y,float z){
+	glPushMatrix();
+	glTranslated(x,y,z);
+
+	//sofa 
+	 sofa->pos.x=-10;
+	 sofa->pos.y=-7;
+	 sofa->pos.z=-7;
+
+	 sofa->scale=0.007;
+	 sofa->Draw();
+
+	 sofa->Materials[0].tex=sofaTex1;
+	 sofa->Materials[1].tex=sofaTex2;
+	 //sofa 2
+	 sofa->pos.x=+14;
+	 sofa->pos.y=-7;
+	 sofa->pos.z=-7;
+
+ 
+	 sofa->Draw();
+
+	 //table
+	 table->pos.x=2;
+	 table->pos.y=-9;
+	 table->pos.z=-7;
+
+	 table->scale=0.005;
+	 table->Draw();
+
+	 table->Materials[0].tex=tableTex;
+
+	 
+
+	 //chair 1
+	 glRotated(-90,0,1,0);
+
+	 chair->pos.x=7;
+	 chair->pos.y=-8;
+	 chair->pos.z=18;
+
+	 chair->scale=0.002;
+	 chair->Draw();
+
+	 chair->Materials[0].tex=chairTex1;
+	 chair->Materials[1].tex=chairTex2;
+	 chair->Materials[2].tex=chairTex2;
+	 
+	 //chair 2
+	 chair->pos.x=7;
+	 chair->pos.y=-8;
+	 chair->pos.z=-18;
+
+	 chair->scale=0.002;
+	 chair->Draw();
+
+	 chair->Materials[0].tex=chairTex1;
+	 chair->Materials[1].tex=chairTex2;
+	 chair->Materials[2].tex=chairTex2;
+	 //book case
+	 bookCase ->pos.x=8;
+	 bookCase ->pos.y=-10;
+	 bookCase ->pos.z=0;
+ 
+	 bookCase ->scale=0.015;
+	 bookCase ->Draw();
+	 bookCase ->Materials[0].tex=bookCaseTex3;
+	 bookCase ->Materials[1].tex=bookCaseTex2;
+	 bookCase ->Materials[2].tex=bookCaseTex2;
+	 bookCase ->Materials[3].tex=bookCaseTex2;
+	 bookCase ->Materials[4].tex=bookCaseTex1;
+	 bookCase ->Materials[5].tex=bookCaseTex1;
+
+
+
+	glPopMatrix();
+}
+
 
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
@@ -1500,6 +3138,17 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	desertYsar = LoadTexture("desert-posx.bmp",255);
 	desertFo2 = LoadTexture("desert-posy.bmp",255);
 	desertT7t = LoadTexture("desert-negy.bmp",255);
+
+	comodena = LoadTexture("comodena.bmp",255);
+	comodena2 = LoadTexture("comodena2.bmp",255);
+	closet = LoadTexture("closet.bmp",255);
+	closet2 = LoadTexture("closet2.bmp",255);
+	bord = LoadTexture("bord.bmp",255);
+	imagclass1= LoadTexture("imegclass1.bmp",255);
+	imagclass2= LoadTexture("imageclass2.bmp",255);
+	coal = LoadTexture("coal.bmp",255);
+	monalisa = LoadTexture("monalisa.bmp",255);
+	food = LoadTexture("food.bmp",255);
 	
 	bench = new Model_3DS();
 	bench->Load("Chair Tandem Bench N210722.3ds");
@@ -1516,19 +3165,60 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	houseTex6.LoadBMP("houseTex6.bmp");
 	houseTex7.LoadBMP("houseTex7.bmp");
 
+	projector = new Model_3DS();
+	projector->Load("projector.3DS");
+	projectorTex.LoadBMP("houseTex5.bmp");
+
+	armchair = new Model_3DS();
+	armchair->Load("armchair.3ds");
+	armChairTex1.LoadBMP("arm.bmp");
+	armChairTex2.LoadBMP("armchairS.bmp");
+	armChairTex3.LoadBMP("Steel.bmp");
+	armChairTex3.LoadBMP("armchairW.bmp");
+
+	sofa = new Model_3DS();
+	sofa->Load("Sofa Fresh Futon Edge N071122.3ds");
+	sofaTex1.LoadBMP("Plywood2.bmp");
+	sofaTex2.LoadBMP("Fabric-d.bmp");
+
+	table = new Model_3DS();
+	table->Load("Table Bernhardt Estelle N251022.3ds");
+	tableTex.LoadBMP("Banco_mt.bmp");
+
+	bookCase = new Model_3DS();
+	bookCase->Load("Bookcase.3DS");
+	bookCaseTex1.LoadBMP("os_wood_palladio.bmp");
+	bookCaseTex2.LoadBMP("palladio_wood_5.bmp");
+	bookCaseTex3.LoadBMP("bookcase.bmp");
+
+	chair = new Model_3DS();
+	chair->Load("Chair fotel N251007.3DS");
+	chairTex1.LoadBMP("Banco_mt.bmp");
+	chairTex2.LoadBMP("Plywood2.bmp");
+
+	sofaChair = new Model_3DS();
+	sofaChair->Load("Chair N230210.3DS");
+	sofaChairTex1.LoadBMP("Decoo.bmp");
+	sofaChairTex2.LoadBMP("Plywood2.bmp");
+	sofaChairTex3.LoadBMP("Fabric-d.bmp");
+
+	
 
 	return TRUE;										// Initialization Went OK
 }
 
-float angle1 = -0.5, angle2 = 0, angle3 = 0;
-float xd = 0, yd = 100, zd = 0	;//mkan
+
+
+float angle1 = 180, angle2 = 0, angle3 = 0;
+float xd = 0, yd = -75, zd = 40	;//mkan
 float looking = 0.05;
-float velocity = 2;//sr3et al mshe
+float velocity = 3;//sr3et al mshe
 float cosMovingLength = 50;
 float cosMovingVelocity = 0.1;
-
+bool myCamera = true;
 int mouseX=0,mouseY=0;
-int move =-600;
+int move =250;
+bool direction = true;
 bool mover = true;
 
 
@@ -1539,9 +3229,12 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
-
+	if(myCamera){
 	gluLookAt(xd, yd, zd, (cos(angle2)*cos(angle1)) + xd, sin(angle2) + yd, (cos(angle2)*sin(angle1)) + zd, 0, 1, 0);
-
+	}
+	if(!myCamera){
+		gluLookAt(xd, yd+60, zd, (cos(angle2)*cos(angle1)) + xd, sin(angle2) + yd+60, (cos(angle2)*sin(angle1)) + zd, 0, 1, 0);
+	}
 	glEnable(GL_TEXTURE_2D);
 	
 
@@ -1681,38 +3374,86 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glRotated(90,0,1,0);
 	
 	glTranslated(move,-38,0);
+
+
 	if(mover) {
-		move++;
+		if(direction){
+			
+			zd-=2;
+		
+			move++;
+		}else{
+			
+			zd+=2;
+		
+			move--;
+		}
+		if(move==250 || move == 1400){
+			direction = !direction;
+		}
+		
+		
 	}
 
 
 	//first room
 	MainRoom(255,0,0,0,0,0,0);
+	drivingroom(255,0,0);
+
 	//last room
 	MainRoom(-315,0,0,180,0,1,0);
+	drivingroom(255,0,0);
+
 
 	DrawEntrance(-140,0,0);
     //second room
 	RoomWithWindow(210,0,0);
+	bedroom(210,0,0);
+
 	//third room
 	RoomWithWindow(150,0,0);
+	drawLib(150,0,0);
 	//fourth room
+	
 	RoomWithOutWindow(90,0,0);
+	CINEMA(90,0,0);
+
 	//fifth room
 	RoomWithWindow(30,0,0);
+	classroom(30,0,0);
+
 	//sixth room
 	RoomWithWindow(-30,0,0);
+	foodroom(-30,0,0);
+
 	//seventh room
 	RoomWithOutWindow(-90,0,0);
+	bedroom(-90,0,0);
+
 	//eighth room
 	RoomWithWindow(-150,0,0);
+	drawLib(-150,0,0);
+
 	//nineth room
 	RoomWithWindow(-210,0,0);
+	foodroom(-210,0,0);
+
 	//tenth Room
 	RoomWithWindow(-270,0,0);
+	bedroom(210,0,0);
 
 
 	glPopMatrix();
+
+
+
+
+
+	
+
+
+
+
 
 
 	//-------------------------------------------------------keyboard---------------------------------------------------------------
@@ -1723,13 +3464,16 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	if (keys['D']) angle1 += looking;  // look at the Right. 
 	if (keys['W']) if (angle2<1.55) angle2 += looking;  //look up,  angle2 is on the axis: x_z and y 
 	if (keys['S']) if (angle2>-1.55) angle2 -= looking;  //look down. 
-	if (keys['E']) yd--;  
-	if (keys['Q']) yd++;  
+	
 	if (keys['F']) {
 		mover = !mover;
 	}
+	if(keys['H']){
+		myCamera = !myCamera;
+	}
+	
 
-
+	if(myCamera ==1){
 	if (keys[VK_UP]) { zd += velocity*sin(angle1); xd += velocity*cos(angle1);
 					    angle3 += cosMovingVelocity; }  // moving Forward. (changing yd axis to demonstrating the steps effect!) 
 	if (keys[VK_DOWN]) { zd -= velocity*sin(angle1); xd -= velocity*cos(angle1); 
@@ -1738,7 +3482,7 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 					  angle3 += cosMovingVelocity; }  //moving to the Left. (moving to Right/Left is the same as moving Forward/Backward but with a different angle. 
 	if (keys[VK_RIGHT]) { zd -= velocity*sin(angle1 - 1.57);
 					 xd -= velocity*cos(angle1 - 1.57); angle3 += cosMovingVelocity; }  //moving to the Right 
-
+	}
 	
 
 
