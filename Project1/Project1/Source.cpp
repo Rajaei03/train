@@ -32,6 +32,8 @@ bool	fullscreen = TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
 int size =200;
+bool col = false;
+
 
 class skyBox{
 public : 
@@ -495,7 +497,9 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 // aya's functions ----------------------------------------------------------------------------------------------------------------------------
 
-int wall, ground, wall2, wall3, door, wheel;
+int wall, ground, wall2, wall3, door, wheel,control;
+
+bool opendoor=false;
 
 
 void drawWheel(float x = 0, float y = 0, float z = 0) {
@@ -732,7 +736,8 @@ void WallWithDoor(float x = 0, float y = 0, float z = 0) {
 	glPopMatrix();
 	//----------------------------------------------door----------------------------------------------------------------------
 	glPushMatrix();
-	glTranslatef(0+x, -4+y, 0+z);
+	if(opendoor==true) glTranslatef(0+x, -4+y, 8+z);
+	else glTranslatef(0+x, -4+y, 0+z);
 	glRotatef(90, 0, 1, 0);
 	glColor3ub(255, 255, 255);
 	glEnable(GL_TEXTURE_2D);
@@ -823,6 +828,8 @@ void MainRoom(float x=0,float y=0,float z=0,float t=0,float a=0,float b=0,float 
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
+
+	
 	//----------------------------------------------front----------------------------------------------------------------------
 	//----------------------------------------------1--b-------------------------------------------------------------
 	glPushMatrix();
@@ -1085,7 +1092,31 @@ void MainRoom(float x=0,float y=0,float z=0,float t=0,float a=0,float b=0,float 
 	glPopMatrix();
 	glPopMatrix();
 }
+void drawPanel(float x=0,float y=0,float z=0,float t=0,float a=0,float b=0,float c=0){
 
+	glPushMatrix();
+	glTranslatef(x,y,z);
+    glRotatef(t,a,b,c);
+	//-------------------------------------------panel--------------------------------------------------------------
+	
+	glColor3d(1,1,1);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,control);
+	glBegin(GL_QUADS);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+	glTexCoord2f(1.0f,0.0f);// 1 1
+	glVertex3f(4, -4, 10);
+	glTexCoord2f(1.0f,1.0f);// 01
+	glVertex3f(10, 0, 10);
+	glTexCoord2f(0.0f,1.0f);//00
+	glVertex3f(10,0, -10);
+	glTexCoord2f(0.0f,0.0f);//10
+	glVertex3f(4,-4,-10);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
 void DrawEntrance(float x = 0, float y = 0, float z = 0){
 	glPushMatrix();
 	glTranslatef(x, y, z);
@@ -1265,6 +1296,10 @@ void RoomWithWindow(float x = 0, float y = 0, float z = 0) {
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
+
+
+	
+
 	//--------------------------------------------------------------top------------------------------------------------------------
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
@@ -1466,7 +1501,39 @@ GLTexture chairTex1,chairTex2;
 Model_3DS*sofaChair;
 GLTexture sofaChairTex1,sofaChairTex2,sofaChairTex3;
 
+Model_3DS*theTree;
+
+Model_3DS*theBusStop;
+
+Model_3DS*theCow;
+
+Model_3DS*theSheep;
+
+Model_3DS*theWbench;
+
+Model_3DS*theGoat;
+
 int bookcase,shelfWood;
+
+int building,building2;
+
+
+
+
+
+
+
+GLTexture leaf,bark;
+
+GLTexture cowskin,coweye,cowcuer;
+
+GLTexture sheeptex;
+
+GLTexture goattex;
+
+GLTexture WbenchTex1;
+
+GLTexture BusStopTex1,BusStopTex2,BusStopTex3,BusStopTex4,BusStopTex5,BusStopTex6;
 
 
 
@@ -1699,7 +1766,8 @@ void drawBox(float x,float y,float z,int image1,int image2,int image3,int image4
 
 int comodena,comodena2,closet,closet2,bord,imagclass1,imagclass2,coal,monalisa,food;
 
-
+bool fan=true;
+double fanrotate=0.0;
 //------------------------------------------------ furnitures ----------------------------------------------------------------------
 
 
@@ -1921,7 +1989,55 @@ static GLubyte quadIndices[6][4] =
     {2, 3, 7, 6}, //right
     {1, 5, 4, 0}  //left is clockwise
 };
+void drawfan(double x,double y,double z){
+	glPushMatrix();
+	glTranslated(x,y,z);
 
+	glPushMatrix();
+	glRotatef(fanrotate,0,1,0);
+		glColor3f(255, 255, 255);
+	glBegin(GL_QUADS); 
+	glVertex3f(6,-1, -1);
+		glVertex3f(6, -1, 1);
+	glVertex3f(-6,-1, 1);
+	glVertex3f(-6,-1,-1);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+		glRotatef(fanrotate,0,1,0);
+	glColor3f(255, 255,255);
+	glBegin(GL_QUADS); 
+	glVertex3f(-1,-1, -6);
+		glVertex3f(1, -1, -6);
+	glVertex3f(1,-1,6);
+	glVertex3f(-1,-1, 6);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(255, 255, 255);
+	glBegin(GL_QUADS); 
+	glVertex3f(-0.3,-1, 0);
+		glVertex3f(0.3, -1, 0);
+	glVertex3f(0.3,3, 0);
+	glVertex3f(-0.3,3,0);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(255, 255, 255);
+	glBegin(GL_QUADS); 
+	glVertex3f(0,-1, -0.3);
+		glVertex3f(0, -1, 0.3);
+	glVertex3f(0,3, 0.3);
+	glVertex3f(0,3,-0.3);
+	glEnd();
+	glPopMatrix();
+
+
+	glPopMatrix();
+}
 
 
 void drawcoalcupe(double x,double y,double z,double a,double b,double c){
@@ -2894,7 +3010,12 @@ void drawfood(double x,double y,double z,double a,double b, double c){
 void bedroom(double x,double y,double z){
 	glPushMatrix();
 glTranslated(x,y,z);
-	drawbed(-23,-10,9,3,5,3);
+	glPushMatrix();
+	drawbed(-23,-10,10,2,5,3);
+	glPopMatrix();
+	glTranslated(-23,-10,9);
+	glRotatef(90,0,1,0);
+	glScaled(3,5,3);
 	drawbedsideTable();
 	drawlamp();
 	glTranslated(0,0,-4.5);
@@ -2912,6 +3033,8 @@ glTranslated(x,y,z);
 void classroom(double x,double y,double z){
 	glPushMatrix();
 glTranslated(x,y,z);
+drawfan(0,6.5,0);
+
 drawbord(0,-1,-10,3,1.5,1);
 drawimageclass1(15,2,-10,1,1,1);
 drawimageclass2(-15,2,-10,1.5,1.5,1);
@@ -2964,14 +3087,16 @@ glPopMatrix();
 void foodroom(double x,double y,double z){
 	glPushMatrix();
 	glTranslated(x,y,z);
+		drawfan(0,6.5,0);
+
 	glPushMatrix();
-	drawTable(0,-4,-5,3,2,2);
+	drawTable(0,-4,-5,3,2,1);
 	glPopMatrix();
 	glPushMatrix();
-	drawchair(-2,-4,0,1.5,1.5,1);
+	//drawchair(-2,-4,0,1.5,1.5,1);
 	glPopMatrix();
 	glPushMatrix();
-	drawchair(4,-4,0,1.5,1.5,1);
+	//drawchair(4,-4,0,1.5,1.5,1);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -2984,7 +3109,7 @@ void foodroom(double x,double y,double z){
 	
 	drawchair(4,-4,-13,1.5,1.5,1);
 	glPopMatrix();
-	drawfood(0,-4,-5,3,2,2);
+	drawfood(0,-4,-5,3,2,1);
 	glPushMatrix();
 	glRotated(90,0,1,0);
 	drawmonalisa(8,-3,23,1.6,1.6,1.6);
@@ -3117,6 +3242,8 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	wall3 = LoadTexture("Wall3.bmp", 255);
 	door = LoadTexture("door.bmp", 255);
 	wheel = LoadTexture("wheel.bmp", 255);
+
+	control = LoadTexture("train-panel.bmp",255);
 	
 	forest2dam = LoadTexture("forest-posz.bmp",255);
 	forestWra = LoadTexture("forest-negz.bmp",255);
@@ -3149,6 +3276,9 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	coal = LoadTexture("coal.bmp",255);
 	monalisa = LoadTexture("monalisa.bmp",255);
 	food = LoadTexture("food.bmp",255);
+
+	building = LoadTexture("building.bmp",255);
+	building2 = LoadTexture("building2.bmp",255);
 	
 	bench = new Model_3DS();
 	bench->Load("Chair Tandem Bench N210722.3ds");
@@ -3202,6 +3332,35 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	sofaChairTex2.LoadBMP("Plywood2.bmp");
 	sofaChairTex3.LoadBMP("Fabric-d.bmp");
 
+	theTree = new Model_3DS();
+	theTree->Load("tree.3ds");
+
+	theBusStop = new Model_3DS();
+	theWbench = new Model_3DS();
+	theCow = new Model_3DS();
+	theSheep = new Model_3DS();
+	theGoat = new Model_3DS();
+
+	theBusStop->Load("BusStop.3ds");
+	theWbench->Load("Wbench.3ds");
+	theCow->Load("cow.3ds");
+	theSheep->Load("sheep.3ds");
+	theGoat->Load("goat.3ds");
+	BusStopTex1.LoadBMP("wood.bmp");
+	BusStopTex2.LoadBMP("steel.bmp");
+	BusStopTex3.LoadBMP("steel.bmp");
+	BusStopTex4.LoadBMP("wood.bmp");
+	BusStopTex5.LoadBMP("steel.bmp");
+	BusStopTex6.LoadBMP("steel.bmp");
+	WbenchTex1.LoadBMP("os_wood_palladio.bmp");
+	cowskin.LoadBMP("cowskin.bmp");
+	coweye.LoadBMP("coweye.bmp");
+	cowcuer.LoadBMP("cowcuer.bmp");
+	sheeptex.LoadBMP("whitefur.bmp");
+	goattex.LoadBMP("blackfur.bmp");
+	leaf.LoadBMP("leaf.bmp");
+	bark.LoadBMP("bark.bmp");
+
 	
 
 	return TRUE;										// Initialization Went OK
@@ -3210,51 +3369,109 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 
 
 float angle1 = 180, angle2 = 0, angle3 = 0;
-float xd = 0, yd = -75, zd = 40	;//mkan
+float xd = 0, yd = -75, zd = 40	;//mkan //0 -75 40
 float looking = 0.05;
 float velocity = 3;//sr3et al mshe
 float cosMovingLength = 50;
 float cosMovingVelocity = 0.1;
 bool myCamera = true;
 int mouseX=0,mouseY=0;
-int move =250;
+int move =250,roomDetect=0;
 bool direction = true;
 bool mover = true;
 
 
+
 bool isClicked=0,isRClicked=0;
 
-void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
-{
+void forest(){
+	//trees
+	glPushMatrix();
+	glTranslated(100,-15,+80);
+	theTree->pos.x=0;
+	theTree->pos.y=0;
+	theTree->pos.z=0;
+	theTree->scale=0.5;
+	theTree->Materials[0].tex=bark;
+	theTree->Materials[1].tex=leaf;
+	//1
+	theTree->Draw();
+	glPopMatrix();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-	glLoadIdentity();									// Reset The Current Modelview Matrix
-	if(myCamera){
-	gluLookAt(xd, yd, zd, (cos(angle2)*cos(angle1)) + xd, sin(angle2) + yd, (cos(angle2)*sin(angle1)) + zd, 0, 1, 0);
-	}
-	if(!myCamera){
-		gluLookAt(xd, yd+60, zd, (cos(angle2)*cos(angle1)) + xd, sin(angle2) + yd+60, (cos(angle2)*sin(angle1)) + zd, 0, 1, 0);
-	}
-	glEnable(GL_TEXTURE_2D);
-	
-
-	
-
-
-	//---------------------------------------------------skybox start-------------------------------------------------------------------
-
-	skyBox third(0,100,-1600,forestYmen,forestYsar,forest2dam,forestWra,forestFo2,forestT7t,0,0);
-	third.drawRail(rail);
-	
+	//2
+	glPushMatrix();
+	glTranslated(100,-15,-80);
+	theTree->Draw();
+	glPopMatrix();
+	//3
+	glPushMatrix();
+	glTranslated(-100,-15,+80);
+	theTree->Draw();
+	glPopMatrix();
+	//4
+	glPushMatrix();
+	glTranslated(-100,-15,-80);
+	theTree->Draw();
+	glPopMatrix();
 
 
+	//Wbench
+	glPushMatrix();
+	glTranslated(80,-92,-0);
+	glRotated(-90,0,1,0);
+	theTree->pos.x=0;
+	theTree->pos.y=0;
+	theTree->pos.z=0;
+	theTree->scale=0.02;
+	theTree->Materials[0].tex=WbenchTex1;
+	theTree->Materials[1].tex=BusStopTex3;
+	theTree->Materials[2].tex=BusStopTex3;
+	theTree->Materials[3].tex=WbenchTex1;
+	//1
+	theTree->Draw();
+	glPopMatrix();
+	//2
+	glPushMatrix();
+	glTranslated(-80,-92,-0);
+	glRotated(+90,0,1,0);
+	theTree->Draw();
+	glPopMatrix();}
+void city(){
+glPushMatrix();
+	glTranslated(+150,-10,-0);
+	drawBox(40,80,80,building,roof,building,building,building,building);
+	glPopMatrix();
 
-
-	skyBox first(0,100,0,snowYmen,snowYsar,snow2dam,snowWra,snowFo2,snowT7t,1,0);
-	first.drawRail(rail);
-
-
-	//benches
+	glPushMatrix();
+	glTranslated(-150,-10,-0);
+	drawBox(40,80,80,building2,roof,building2,building2,building2,building2);
+	glPopMatrix();
+	//BusStop
+	glPushMatrix();
+	glTranslated(+50,-100,-0);
+	glRotated(-90,0,1,0);
+	theBusStop->pos.x=0;
+	theBusStop->pos.y=0;
+	theBusStop->pos.z=0;
+	theBusStop->scale=0.008;
+	theBusStop->Materials[0].tex=BusStopTex1;
+	theBusStop->Materials[1].tex=BusStopTex2;
+	theBusStop->Materials[2].tex=BusStopTex3;
+	theBusStop->Materials[3].tex=BusStopTex4;
+	theBusStop->Materials[4].tex=BusStopTex5;
+	theBusStop->Materials[5].tex=BusStopTex6;
+	//1
+	theBusStop->Draw();
+	glPopMatrix();
+	//2
+	glPushMatrix();
+	glTranslated(-50,-100,-0);
+	glRotated(+90,0,1,0);
+	theBusStop->Draw();
+	glPopMatrix();
+}
+void snowy(){
+//benches
 	glPushMatrix();
 	glRotated(-90,0,1,0);
 	glTranslated(60,-95,-50);
@@ -3333,18 +3550,239 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glTranslated(-120,-70,-120);
 	house->Draw();
 	glPopMatrix();
+}
+void fogg(){
+float fogColor[5]={1,1,1,1};
+	glEnable(GL_FOG);
+    glFogi(GL_FOG_MODE,GL_LINEAR);
+    glFogfv(GL_FOG_COLOR,fogColor);
+    glFogf(GL_FOG_DENSITY,0.6);
+    glHint(GL_FOG_HINT,GL_NICEST);
+    glFogf(GL_FOG_START,0.1);
+    glFogf(GL_FOG_END,200);
+	glDisable(GL_FOG);
+}
+void barn(){
+glPushMatrix();
+	glTranslated(+120,-70,-0);
+	glRotated(-90,0,1,0);
+	house->pos.x=0;
+	house->pos.y=0;
+	house->pos.z=0;
+	house->scale=8;
+	house->Materials[0].tex=houseTex2;
+	house->Materials[1].tex=houseTex2;
+	house->Materials[2].tex=houseTex3;
+	house->Materials[3].tex=houseTex3;
+	house->Materials[4].tex=houseTex2;
+	house->Materials[5].tex=houseTex3;
+	house->Materials[6].tex=houseTex2;
+	house->Draw();
+	glPopMatrix();
+	
 
+	//cow
+	glPushMatrix();
+	glTranslated(-120,-100,+0);
+	glRotated(-180,0,1,0);
+	theCow->pos.x=0;
+	theCow->pos.y=0;
+	theCow->pos.z=0;
+	theCow->scale=0.1;
+	theCow->Materials[0].tex=cowskin;
+	theCow->Materials[1].tex=coweye;
+	theCow->Materials[2].tex=cowcuer;
+	theCow->Draw();
+	glPopMatrix();
+
+	//sheep
+	glPushMatrix();
+	glTranslated(-120,-92,-120);
+	theSheep->pos.x=0;
+	theSheep->pos.y=0;
+	theSheep->pos.z=0;
+	theSheep->scale=5;
+	theSheep->Materials[0].tex=sheeptex;
+	theSheep->Materials[1].tex=sheeptex;
+	theSheep->Materials[2].tex=sheeptex;
+	//1
+	theSheep->Draw();
+	glPopMatrix();
+	//2
+	glPushMatrix();
+	glTranslated(-120,-92,+60);
+	theSheep->Draw();
+	glPopMatrix();
+	//goat
+	glPushMatrix();
+	glTranslated(-120,-90,+120);
+	theGoat->pos.x=0;
+	theGoat->pos.y=0;
+	theGoat->pos.z=0;
+	theGoat->scale=5;
+	theGoat->Materials[0].tex=goattex;
+	theGoat->Materials[1].tex=goattex;
+	theGoat->Materials[2].tex=goattex;
+	theGoat->Materials[3].tex=goattex;
+	theGoat->Materials[4].tex=goattex;
+	//1
+	theGoat->Draw();
+	glPopMatrix();
+	//2
+	glPushMatrix();
+	glTranslated(-120,-92,-60);
+	theGoat->Draw();
+	glPopMatrix();
+}
+
+void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
+{
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+	glLoadIdentity();									// Reset The Current Modelview Matrix
+
+	//col detect ------------------------------------------------------------------------------------------------------
+	if(xd>5){
+		xd-=3;
+	}
+	
+	if(xd<-5){
+		xd+=3;
+	}
+	if(zd>130+roomDetect){
+			zd-=3;
+		}
+	if(zd<-1010+roomDetect){
+			zd+=3;
+		}
+	 
+
+
+	if(opendoor == false){
+		//front collision
+		if(zd<0+roomDetect && zd>-5+roomDetect){
+			zd+=3;
+		}
+		if(zd<-120+roomDetect && zd>-125+roomDetect){
+			zd+=3;
+		}
+		if(zd<-240+roomDetect && zd>-245+roomDetect){
+			zd+=3;
+		}
+		if(zd<-360+roomDetect && zd>-365+roomDetect){
+			zd+=3;
+		}
+		if(zd<-480+roomDetect && zd>-485+roomDetect){
+			zd+=3;
+		}
+		if(zd<-600+roomDetect && zd>-605+roomDetect){
+			zd+=3;
+		}
+		if(zd<-720+roomDetect && zd>-725+roomDetect){
+			zd+=3;
+		}
+		if(zd<-840+roomDetect && zd>-845+roomDetect){
+			zd+=3;
+		}
+		if(zd<-960+roomDetect && zd>-965+roomDetect){
+			zd+=3;
+		}
+		
+
+
+		//back collision
+
+		if(zd>80+roomDetect && zd<85+roomDetect){
+			zd-=3;
+		}
+		if(zd>-40+roomDetect && zd<-35+roomDetect){
+			zd-=3;
+		}
+		if(zd>-160+roomDetect && zd<-155+roomDetect){
+			zd-=3;
+		}
+		if(zd>-280+roomDetect && zd<-275+roomDetect){
+			zd-=3;
+		}
+		if(zd>-400+roomDetect && zd<-395+roomDetect){
+			zd-=3;
+		}
+		if(zd>-520+roomDetect && zd<-515+roomDetect){
+			zd-=3;
+		}
+		if(zd>-640+roomDetect && zd<-635+roomDetect){
+			zd-=3;
+		}
+		if(zd>-760+roomDetect && zd<-755+roomDetect){
+			zd-=3;
+		}
+		if(zd>-880+roomDetect && zd<-875+roomDetect){
+			zd-=3;
+		}
+		
+	}
+
+
+
+	if(myCamera){
+	gluLookAt(xd, yd, zd, (cos(angle2)*cos(angle1)) + xd, sin(angle2) + yd, (cos(angle2)*sin(angle1)) + zd, 0, 1, 0);
+	}
+	if(!myCamera){
+		gluLookAt(xd, yd+60, zd, (cos(angle2)*cos(angle1)) + xd, sin(angle2) + yd+60, (cos(angle2)*sin(angle1)) + zd, 0, 1, 0);
+	}
+	glEnable(GL_TEXTURE_2D);
+	
+
+	
+
+
+	//---------------------------------------------------skybox start-------------------------------------------------------------------
+
+	skyBox third(0,100,-1600,forestYmen,forestYsar,forest2dam,forestWra,forestFo2,forestT7t,0,0);
+	third.drawRail(rail);
+	
+	if(zd<-1200&&zd>-2000){
+		glPushMatrix();
+		glTranslated(0,0,-1600);
+		forest();
+		glPopMatrix();
+	}
+	
+
+
+	skyBox first(0,100,0,snowYmen,snowYsar,snow2dam,snowWra,snowFo2,snowT7t,1,0);
+	first.drawRail(rail);
+
+	if(zd<0&&zd>-400){
+		snowy();
+	}
 
 
 
 	skyBox seconde(0,100,-800,mountainYmen,mountainYsar,mountain2dam,mountainWra,mountainFo2,mountainT7t,0,0);
 	seconde.drawRail(rail);
 
+
+
 	skyBox fourth(0,100,-2400,desertYmen,desertYsar,desert2dam,desertWra,desertFo2,desertT7t,0,0);
 	fourth.drawRail(rail);
+	if(zd<-2000 && zd>-2800){
+		glPushMatrix();
+		glTranslated(0,0,-2400);
+		barn();
+		glPopMatrix();
+	}
+
 
 	skyBox fifth(0,100,-3200,nightYmen,nightYsar,night2dam,nightWra,nightFo2,nightT7t,0,1);
 	fifth.drawRail(rail);
+	if(zd<-2800&&zd>-3600){
+		glPushMatrix();
+		glTranslated(0,0,-3200);
+		city();
+		glPopMatrix();
+	}
+	
 	
 
 
@@ -3382,11 +3820,13 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 			zd-=2;
 		
 			move++;
+			roomDetect-=2;
 		}else{
 			
 			zd+=2;
 		
 			move--;
+			roomDetect+=2;
 		}
 		if(move==250 || move == 1400){
 			direction = !direction;
@@ -3395,14 +3835,21 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 		
 	}
 
+	if(fan) {
+		fanrotate=fanrotate+8;
+	}
+
 
 	//first room
 	MainRoom(255,0,0,0,0,0,0);
+	drawPanel(255,0,0,0,0,0,0);
 	drivingroom(255,0,0);
 
 	//last room
 	MainRoom(-315,0,0,180,0,1,0);
-	drivingroom(255,0,0);
+	drawPanel(-315,0,0,180,0,1,0);
+
+	drivingroom(-315,0,0);
 
 
 	DrawEntrance(-140,0,0);
@@ -3440,7 +3887,6 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 
 	//tenth Room
 	RoomWithWindow(-270,0,0);
-	bedroom(210,0,0);
 
 
 	glPopMatrix();
@@ -3471,17 +3917,23 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	if(keys['H']){
 		myCamera = !myCamera;
 	}
-	
+	if (keys['R']) {
+		fan = !fan;
+	}
+	if (keys['G']) {
+		opendoor = !opendoor;
+	}
 
 	if(myCamera ==1){
+
 	if (keys[VK_UP]) { zd += velocity*sin(angle1); xd += velocity*cos(angle1);
 					    angle3 += cosMovingVelocity; }  // moving Forward. (changing yd axis to demonstrating the steps effect!) 
 	if (keys[VK_DOWN]) { zd -= velocity*sin(angle1); xd -= velocity*cos(angle1); 
 						  angle3 += cosMovingVelocity; }  // moving Backward. 
-	if (keys[VK_LEFT]) { zd += velocity*sin(angle1 - 1.57); xd += velocity*cos(angle1 - 1.57);
-					  angle3 += cosMovingVelocity; }  //moving to the Left. (moving to Right/Left is the same as moving Forward/Backward but with a different angle. 
-	if (keys[VK_RIGHT]) { zd -= velocity*sin(angle1 - 1.57);
-					 xd -= velocity*cos(angle1 - 1.57); angle3 += cosMovingVelocity; }  //moving to the Right 
+	if (keys[VK_LEFT]) { /*zd += velocity*sin(angle1 - 1.57); xd += velocity*cos(angle1 - 1.57);
+					  angle3 += cosMovingVelocity;*/ }  //moving to the Left. (moving to Right/Left is the same as moving Forward/Backward but with a different angle. 
+	if (keys[VK_RIGHT]) { /*zd -= velocity*sin(angle1 - 1.57);
+					 xd -= velocity*cos(angle1 - 1.57); angle3 += cosMovingVelocity;*/ }  //moving to the Right 
 	}
 	
 
@@ -3497,27 +3949,7 @@ void DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 
 
 
-	/*if(keys['D']){
-		//if(x<10){
-			teta-=0.1;
-		//}
-		
-	}
-	if(keys['A']){
-	//	if(x>-10){
-			teta+=0.1;
-		//}
-	}
-	if(keys['W']){
-		//if(y<7){
-			y+=5;
-		//}
-	}
-	if(keys['S']){
-		//if(y>-3){
-			y-=5;
-		//}
-	}*/
+	
 	
 	//DO NOT REMOVE THIS
 	SwapBuffers(hDC);
